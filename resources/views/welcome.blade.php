@@ -81,7 +81,7 @@
                 </div>
                 <h3 style="margin-top: -30px;">Kelompok 1 Praktikum Pemrograman Mobile</h3>
                 <div class="links">
-                    <a href="https://github.com/laravel/laravel">Link Repositori GitHub</a>
+                    <a href="https://github.com/Whyu9-9/LaravelREST-API">Link Repositori GitHub</a>
                 </div>
             </div>
         </div>
