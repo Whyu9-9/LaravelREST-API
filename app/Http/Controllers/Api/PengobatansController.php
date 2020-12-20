@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Obat;
+use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,7 +18,7 @@ class PengobatansController extends Controller
 
         if($request->img !=''){
             $image = time().'jpg';
-            file_put_contents('storage/image/'.$image,base64_decode($request->img));
+            file_put_contents('image/'.$image,base64_decode($request->img));
             $obat->img = $image;
         }else{
             $image = 'default.jpg';
@@ -49,7 +50,7 @@ class PengobatansController extends Controller
 
         if($request->img !=''){
             $image = time().'jpg';
-            file_put_contents('storage/image/'.$image,base64_decode($request->img));
+            file_put_contents('image/'.$image,base64_decode($request->img));
             $obat->img = $image;
         }
 
@@ -82,7 +83,7 @@ class PengobatansController extends Controller
         }
         
         if($obat->img !='' || $obat->img !='default.jpg'){
-            Storage::delete('storage/image/'.$obat->img);
+            Storage::delete('image/'.$obat->img);
         }
         $obat->delete();
         return response()->json([
@@ -93,7 +94,9 @@ class PengobatansController extends Controller
     }
 
     public function reminder(Request $request){
-        $obats = Obat::orderBy('id','desc')->get();
+        $user = User::find(Auth::user()->id);
+        $idUser = $user->id;
+        $obats = Obat::where(['id_user' => $idUser])->orderBy('id','desc')->get();
         foreach($obats as $obat){
             $obat->user;
         }

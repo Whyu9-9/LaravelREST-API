@@ -71,7 +71,7 @@ class AuthController extends Controller
         $photo = '';
         if($request->photo != null){
             $photo = time().'.jpg';
-            file_put_contents('storage/profiles/'.$photo,base64_decode($request->photo));
+            file_put_contents('profiles/'.$photo,base64_decode($request->photo));
             $user->photo = $photo;
         }
 
@@ -79,7 +79,79 @@ class AuthController extends Controller
 
         return response()->json([
             'success'=>true,
-            'photo'=>$photo
+            'user'=>$user
         ]);
     }
+    
+    public function editUserInfo(Request $request){
+        $user = User::find(Auth::user()->id);
+        $photo = '';
+        $name = '';
+        $age = '';
+        $email = '';
+        if($request->photo != null){
+            $photo = time().'.jpg';
+            file_put_contents('profiles/'.$photo,base64_decode($request->photo));
+            $user->photo = $photo;
+        }else{
+            $photo =Auth::user()->photo;
+            $user->photo = $photo;
+        }
+        
+        if($request->name != null){
+            $user->name = $request->name;
+        }else{
+            $name =Auth::user()->name;
+            $user->name = $name;
+        }
+        
+        if($request->age != null){
+            $user->age = $request->age;
+        }else{
+            $age =Auth::user()->age;
+            $user->age = $age;
+        }
+        
+        if($request->email != null){
+            $user->email = $request->email;
+        }else{
+            $email =Auth::user()->email;
+            $user->email = $email;
+        }
+
+        $user->update();
+
+        return response()->json([
+            'success'=>true,
+            'user' => $user
+        ]);
+    }
+    
+    public function editPass(Request $request){
+        $user = User::find(Auth::user()->id);
+
+        $savedPass = $user->password;
+        $getPass = $request->password;
+        $newPass = Hash::make($request->newPass);
+        if(Hash::check($getPass, $savedPass)){
+            $user->password = $newPass;
+            $user->save();
+            return response()->json([
+                'success' => true
+            ]);
+        }else{
+            return response()->json([
+                'success' => false
+            ]);
+        }
+    }
+    
+    public function read(Request $request){
+        $user = User::find(Auth::user()->id);
+        return response()->json([
+            'success' => true,
+            'user' => $user
+        ]);
+    }
+    
 }

@@ -75,7 +75,7 @@
             @endif
 
             <div class="content">
-                <img style="margin-bottom: -60px;" src="{{asset('storage/image/logo.png')}}"></a>
+                <img style="margin-bottom: -60px;" src="{{asset('image/logo.png')}}"></a>
                 <div class="title m-b-md">
                     API RemindMe 
                 </div>
