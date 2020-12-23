@@ -27,3 +27,4 @@ Route::post('reminder/create','Api\PengobatansController@create')->middleware('j
 Route::post('reminder/update','Api\PengobatansController@update')->middleware('jwtAuth');
 Route::post('reminder/delete','Api\PengobatansController@delete')->middleware('jwtAuth');
 Route::get('reminder','Api\PengobatansController@reminder')->middleware('jwtAuth');
+Route::get('reminder/trash','Api\PengobatansController@trash')->middleware('jwtAuth');

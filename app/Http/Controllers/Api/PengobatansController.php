@@ -21,12 +21,13 @@ class PengobatansController extends Controller
             file_put_contents('image/'.$image,base64_decode($request->img));
             $obat->img = $image;
         }else{
-            $image = 'default.jpg';
+            $image = 'default.png';
             $obat->img = $image;
         }
         $obat->nama_obat = $request->nama_obat;
         $obat->frekuensi_minum = $request->frekuensi_minum;
         $obat->qty = $request->qty;
+        $obat->deskripsi = $request->deskripsi;
 
         $obat->save();
         $obat->user;
@@ -57,6 +58,7 @@ class PengobatansController extends Controller
         $obat->nama_obat = $request->nama_obat;
         $obat->frekuensi_minum = $request->frekuensi_minum;
         $obat->qty = $request->qty;
+        $obat->deskripsi = $request->deskripsi;
         $obat->update();
         $obat->user;
         return response()->json([
@@ -82,7 +84,7 @@ class PengobatansController extends Controller
             ]);
         }
         
-        if($obat->img !='' || $obat->img !='default.jpg'){
+        if($obat->img !='' || $obat->img !='default.png'){
             Storage::delete('image/'.$obat->img);
         }
         $obat->delete();
@@ -97,6 +99,19 @@ class PengobatansController extends Controller
         $user = User::find(Auth::user()->id);
         $idUser = $user->id;
         $obats = Obat::where(['id_user' => $idUser])->orderBy('id','desc')->get();
+        foreach($obats as $obat){
+            $obat->user;
+        }
+        return response()->json([
+            'success'=>true,
+            'data'=>$obats
+        ]);
+    }
+    
+    public function trash(Request $request){
+        $user = User::find(Auth::user()->id);
+        $idUser = $user->id;
+        $obats = Obat::onlyTrashed()->where(['id_user' => $idUser])->orderBy('id','desc')->get();
         foreach($obats as $obat){
             $obat->user;
         }

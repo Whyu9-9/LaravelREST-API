@@ -73,6 +73,9 @@ class AuthController extends Controller
             $photo = time().'.jpg';
             file_put_contents('profiles/'.$photo,base64_decode($request->photo));
             $user->photo = $photo;
+        }else{
+            $photo = 'profile.png';
+            $user->photo = $photo;
         }
 
         $user->update();
@@ -85,38 +88,14 @@ class AuthController extends Controller
     
     public function editUserInfo(Request $request){
         $user = User::find(Auth::user()->id);
+        $user->name = $request->name;
+        $user->age = $request->age;
+        $user->email = $request->email;
         $photo = '';
-        $name = '';
-        $age = '';
-        $email = '';
         if($request->photo != null){
             $photo = time().'.jpg';
             file_put_contents('profiles/'.$photo,base64_decode($request->photo));
             $user->photo = $photo;
-        }else{
-            $photo =Auth::user()->photo;
-            $user->photo = $photo;
-        }
-        
-        if($request->name != null){
-            $user->name = $request->name;
-        }else{
-            $name =Auth::user()->name;
-            $user->name = $name;
-        }
-        
-        if($request->age != null){
-            $user->age = $request->age;
-        }else{
-            $age =Auth::user()->age;
-            $user->age = $age;
-        }
-        
-        if($request->email != null){
-            $user->email = $request->email;
-        }else{
-            $email =Auth::user()->email;
-            $user->email = $email;
         }
 
         $user->update();
