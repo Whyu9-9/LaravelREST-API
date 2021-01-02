@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 class PengobatansController extends Controller
 {
     public function create(Request $request){
+        date_default_timezone_set("Asia/Makassar");
         $obat = new Obat;
         $obat->id_user = Auth::user()->id;
         $obat->jenis_penyakit = $request->jenis_penyakit;
